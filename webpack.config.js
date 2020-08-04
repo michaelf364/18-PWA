@@ -20,8 +20,8 @@ const config = {
       // files predictable making it easier to refer to them in our code
       fingerprints: false,
 
-      name: "Images App",
-      short_name: "Images App",
+      name: "Budget Tracker",
+      short_name: "Budget Tracker",
       theme_color: "#ffffff",
       background_color: "#ffffff",
       start_url: "/",
