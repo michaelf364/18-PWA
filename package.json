@@ -11,8 +11,7 @@
     "lint": "eslint --quiet .",
     "fix": "eslint --fix .",
     "watch": "nodemon server.js",
-    "seed": "node seeders/seed.js",
-    "prestart": "npm run webpack"
+    "seed": "node seeders/seed.js"
   },
   "repository": {
     "type": "git",
