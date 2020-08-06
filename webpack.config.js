@@ -6,7 +6,7 @@ const config = {
     path: path.resolve(__dirname, "public/dist"),
     filename: "bundle.js",
   },
-  mode: "development",
+  mode: "production",
   plugins: [
     new WebpackPwaManifest({
       fingerprints: false,
