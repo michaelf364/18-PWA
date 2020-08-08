@@ -1,6 +1,72 @@
 let transactions = [];
 let myChart;
 
+function checkForIndexedDb() {
+  if (!window.indexedDB) {
+    console.log("Your browser doesn't support a stable version of IndexedDB.");
+    return false;
+  }
+  return true;
+}
+
+function useIndexedDb(databaseName, storeName, method, object) {
+  return new Promise((resolve) => {
+    const request = window.indexedDB.open(databaseName, 2);
+    let db, tx, store;
+
+    request.onupgradeneeded = function () {
+      const db = request.result;
+      db.createObjectStore(storeName, { keyPath: "_id", autoIncrement: true });
+    };
+
+    request.onerror = function () {
+      console.log("There was an error");
+    };
+
+    request.onsuccess = function () {
+      db = request.result;
+      tx = db.transaction(storeName, "readwrite");
+      store = tx.objectStore(storeName);
+
+      db.onerror = function () {
+        console.log("error");
+      };
+      if (method === "put") {
+        store.put(object);
+      } else if (method === "get") {
+        const all = store.getAll();
+        all.onsuccess = function () {
+          resolve(all.result);
+        };
+      } else if (method === "delete") {
+        store.delete(object._id);
+      } else if (method === "add") {
+        console.log(store, object);
+        const objRequest = store.add(object);
+        objRequest.onsuccess = function (event) {
+          console.log("success", event);
+        };
+        objRequest.onerror = function (event) {
+          console.log("error", event);
+        };
+      }
+      tx.oncomplete = function () {
+        db.close();
+      };
+    };
+  });
+}
+
+function saveRecord(transaction) {
+  if (checkForIndexedDb()) {
+    useIndexedDb("transactions", "TransactionStore", "add", transaction).then(
+      () => {
+        console.log("added to DB");
+      }
+    );
+  }
+}
+
 fetch("/api/transaction")
   .then((response) => {
     return response.json();
