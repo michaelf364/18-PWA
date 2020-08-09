@@ -10,25 +10,25 @@ function checkForIndexedDb() {
 }
 
 function useIndexedDb(databaseName, storeName, method, object) {
-  return new Promise((resolve) => {
-    const request = window.indexedDB.open(databaseName, 2);
+  return new Promise((resolve, reject) => {
+    const request = window.indexedDB.open(databaseName, 1);
     let db, tx, store;
 
-    request.onupgradeneeded = function () {
+    request.onupgradeneeded = function (e) {
       const db = request.result;
       db.createObjectStore(storeName, { keyPath: "_id", autoIncrement: true });
     };
 
-    request.onerror = function () {
+    request.onerror = function (e) {
       console.log("There was an error");
     };
 
-    request.onsuccess = function () {
+    request.onsuccess = function (e) {
       db = request.result;
       tx = db.transaction(storeName, "readwrite");
       store = tx.objectStore(storeName);
 
-      db.onerror = function () {
+      db.onerror = function (e) {
         console.log("error");
       };
       if (method === "put") {
@@ -48,11 +48,6 @@ function useIndexedDb(databaseName, storeName, method, object) {
         };
         objRequest.onerror = function (event) {
           console.log("error", event);
-        };
-      } else if (method === "clear") {
-        const empty = store.clear();
-        empty.onsuccess = function () {
-          console.log("success");
         };
       }
       tx.oncomplete = function () {
