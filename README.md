@@ -15,7 +15,7 @@ This is a website used to track workouts that you've done
 
 ## Website Link
 
-https://intense-mountain-97572.herokuapp.com
+https://desolate-stream-83655.herokuapp.com/
 
 ## Functioning
 
