@@ -1,4 +1,4 @@
-# Workout Tracker
+# Budget Tracker
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/michaelf364/11-express)
 
 This is a website used to track workouts that you've done
